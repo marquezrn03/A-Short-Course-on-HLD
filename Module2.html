@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLD/HLDN Course - Module 2: The HLD/HLDN Equation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles - Adjusted for Light Blue (Sky) Theme */
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-section {
+            opacity: 0; animation: fadeIn 0.8s ease-out forwards;
+        }
+        /* Interactive elements */
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151; }
+        input[type="range"] { width: 100%; cursor: pointer; accent-color: #0284c7; /* sky-600 */ }
+        input[type="number"], select { padding: 0.5rem; border: 1px solid #D1D5DB; border-radius: 0.375rem; }
+        input[type="number"] { width: 80px; text-align: center; }
+        select { width: 100%; }
+        button {
+            background-color: #0ea5e9; /* sky-500 */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: #0284c7; /* sky-600 */ }
+        /* Radio button styling */
+        .radio-label { display: inline-flex; align-items: center; margin-right: 1rem; cursor: pointer; }
+        .radio-input { margin-right: 0.5rem; accent-color: #0284c7; /* sky-600 */ }
+
+        /* General styling */
+        .dynamic-content { transition: all 0.5s ease-in-out; }
+        h1, h2, h3 { color: #111827; }
+        p, li { color: #374151; line-height: 1.6; }
+        strong { color: #1F2937; }
+        blockquote { border-left: 4px solid #38bdf8; /* sky-400 */ padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: #4B5563; }
+        .section-bg-light { background-color: #F0F9FF; /* sky-50 */ }
+        .section-bg-white { background-color: #FFFFFF; }
+        .highlight-term {
+            background-color: #e0f2fe; /* sky-100 */
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            cursor: help; /* Indicate hover effect */
+            position: relative; /* For tooltip */
+            border-bottom: 1px dashed #7dd3fc; /* sky-300 */
+        }
+         /* Tooltip for equation terms */
+        .highlight-term .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #374151; /* gray-700 */
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position above the term */
+            left: 50%;
+            margin-left: -100px; /* Center the tooltip */
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-family: 'Inter', sans-serif; /* Use standard font */
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        .highlight-term:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; margin-bottom: 1rem; }
+        th, td { border: 1px solid #e5e7eb; /* gray-200 */ padding: 0.75rem; text-align: left; }
+        th { background-color: #f0f9ff; /* sky-50 */ font-weight: 600; color: #0369a1; /* sky-800 */ }
+        tbody tr:nth-child(odd) { background-color: #f0f9ff; /* sky-50 */ }
+        tbody tr:nth-child(even) { background-color: #FFFFFF; }
+
+        /* Footer reference list styling */
+        footer ul { list-style: none; padding-left: 0; }
+        footer li { margin-bottom: 0.75rem; /* Add space between references */ }
+        footer a { color: #0369a1; /* sky-700 */ text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        /* Helper class */
+        .instructional-text { font-size: 0.875rem; color: #4B5563; margin-top: 0.5rem; }
+        .code-like { font-family: monospace; background-color: #f3f4f6; padding: 0.1em 0.4em; border-radius: 0.25rem; }
+
+        /* Fish Diagram SVG Styling */
+        .fish-diagram-svg {
+            display: block;
+            margin: 1.5rem auto;
+            max-width: 500px; /* Limit width */
+            width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            border: 1px solid #e5e7eb; /* gray-200 */
+            background-color: white;
+            border-radius: 0.375rem; /* rounded-md */
+        }
+        .svg-axis { stroke: #374151; stroke-width: 2; }
+        .svg-label { font-family: 'Inter', sans-serif; font-size: 12px; fill: #374151; }
+        .svg-region-label { font-family: 'Inter', sans-serif; font-size: 11px; fill: #0369a1; /* sky-700 */ font-weight: 500; }
+        .svg-wiii-region { fill: #bae6fd; /* sky-200 */ stroke: #7dd3fc; /* sky-300 */ stroke-width: 1; }
+        .svg-wiv-region { fill: #e0f2fe; /* sky-100 */ stroke: #7dd3fc; /* sky-300 */ stroke-width: 1; }
+        .svg-wi-region { fill: #f0f9ff; /* sky-50 */ }
+        .svg-wii-region { fill: #f0f9ff; /* sky-50 */ }
+        .svg-t-star { fill: #ef4444; /* red-500 */ }
+        .svg-t-star-line { stroke: #ef4444; stroke-width: 1; stroke-dasharray: 3,3; }
+
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 antialiased">
+
+    <header class="bg-gradient-to-r from-sky-600 to-cyan-600 text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-3xl font-bold">A Course on Hydrophilic-Lipophilic Deviation (HLD/HLDN)</h1>
+            <p class="text-xl font-semibold mt-1">Module 2: Deconstructing the HLD/HLDN Equation</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+
+        <section id="section-2-1" class="mb-12 p-6 rounded-lg shadow-lg section-bg-white dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-sky-700 border-b-2 border-sky-200 pb-2">2.1 The Multivariable HLD Equation</h2>
+            <p class="mb-4">The core quantitative tool developed through extensive experimental studies is the Hydrophilic-Lipophilic Deviation (HLD) equation. This equation emerged from quantifying the conditions required to achieve optimum formulation (Winsor's R=1 equivalent) in surfactant-oil-water systems.<sup class="text-sky-500">4</sup> The HLD equation is fundamentally semi-empirical, representing a linear correlation derived from observing systematic phase behavior transitions during formulation scans.</p>
+            <p class="mb-4">Recognizing that different types of surfactants respond differently to formulation variables, distinct forms of the HLD equation were initially proposed. These equations represent the specific condition where <strong class="text-green-700">HLD = 0 (optimum formulation)</strong><sup class="text-sky-500">14</sup>. Hover over the terms for brief explanations:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                    <h3 class="text-lg font-semibold mb-2 text-sky-800">For Anionic Surfactants (e.g., Sulfonates):</h3>
+                    <p class="text-lg font-mono bg-white p-3 rounded shadow-sm break-words">
+                        <span class="highlight-term">LnS<span class="tooltip-text">Natural logarithm of Salinity (often wt% NaCl). Increasing S makes surfactant more lipophilic (increases HLD).</span></span> -
+                        <span class="highlight-term">K<span class="tooltip-text">Coefficient reflecting oil phase influence.</span></span> <span class="highlight-term">ACN<span class="tooltip-text">Alkane Carbon Number of the oil (lipophilicity). Higher ACN requires more lipophilic surfactant for balance.</span></span> -
+                        <span class="highlight-term">f(A)<span class="tooltip-text">Function accounting for alcohol/cosurfactant effects. Can increase or decrease HLD depending on alcohol type.</span></span> -
+                        <span class="highlight-term">a<sub>T</sub><span class="tooltip-text">Temperature coefficient (usually small for ionics).</span></span> (<span class="highlight-term">T<span class="tooltip-text">System Temperature (°C or K).</span></span> - <span class="highlight-term">T<sub>ref</sub><span class="tooltip-text">Reference Temperature (e.g., 25°C).</span></span>) +
+                        <span class="highlight-term">σ<span class="tooltip-text">Characteristic parameter of the anionic surfactant (intrinsic hydrophilicity/lipophilicity).</span></span> = 0
+                    </p>
+                    <p class="mt-3 instructional-text">Here, the <code class="code-like">LnS</code> term captures the strong dependence on electrolyte concentration. Increasing salinity (S) screens head group repulsions, making the surfactant effectively more lipophilic.<sup class="text-sky-500">14</sup> <code class="code-like">ACN</code> represents the oil's lipophilicity, <code class="code-like">f(A)</code> accounts for alcohol effects, <code class="code-like">a<sub>T</sub></code> represents temperature sensitivity (often small for ionics), and <code class="code-like">σ</code> is the surfactant's characteristic parameter.<sup class="text-sky-500">14</sup></p>
+                </div>
+
+                <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                    <h3 class="text-lg font-semibold mb-2 text-sky-800">For Nonionic Surfactants (e.g., Ethoxylates):</h3>
+                    <p class="text-lg font-mono bg-white p-3 rounded shadow-sm break-words">
+                        <span class="highlight-term">bS<span class="tooltip-text">Linear Salinity term (effect usually smaller than for ionics). 'b' is the coefficient.</span></span> -
+                        <span class="highlight-term">K<span class="tooltip-text">Coefficient reflecting oil phase influence.</span></span> <span class="highlight-term">ACN<span class="tooltip-text">Alkane Carbon Number of the oil.</span></span> -
+                        <span class="highlight-term">f(A)<span class="tooltip-text">Function accounting for alcohol/cosurfactant effects.</span></span> +
+                        <span class="highlight-term">c<sub>T</sub><span class="tooltip-text">Temperature coefficient (significant for ethoxylates).</span></span> (<span class="highlight-term">T<span class="tooltip-text">System Temperature.</span></span> - <span class="highlight-term">T<sub>ref</sub><span class="tooltip-text">Reference Temperature.</span></span>) +
+                        <span class="highlight-term">β<span class="tooltip-text">Characteristic parameter of the nonionic surfactant (related to EON, alkyl chain).</span></span> = 0
+                    </p>
+                     <p class="mt-3 instructional-text">For these surfactants, the effect of salinity is often modeled linearly (<code class="code-like">bS</code>). The most significant variable is usually temperature (<code class="code-like">T</code>). Increasing temperature reduces ethylene oxide (EO) group hydration, making the surfactant more lipophilic (positive <code class="code-like">c<sub>T</sub></code> coefficient).<sup class="text-sky-500">14</sup> <code class="code-like">β</code> is the characteristic parameter, often related to EO number (EON).<sup class="text-sky-500">14</sup></p>
+                </div>
+            </div>
+
+            <p class="mt-6">These equations linearly combine the effects of the major variables influencing the hydrophilic-lipophilic balance. The remarkable success of these linear equations across a wide range of experimental conditions, despite representing a first-order approximation of potentially more complex relationships,<sup class="text-sky-500">7</sup> underscores their practical utility. Decades of experimental validation supported this linear framework as robust for modeling and predicting SOW system behavior.<sup class="text-sky-500">1</sup> While potential deviations, particularly with complex mixtures,<sup class="text-sky-500">7</sup> were acknowledged, the evidence supported the linear HLD equation as a powerful tool for formulation tasks.<sup class="text-sky-500">14</sup></p>
+        </section>
+
+        <section id="section-2-2" class="mb-12 p-6 rounded-lg shadow-lg section-bg-light dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-sky-700 border-b-2 border-sky-200 pb-2">2.2 Normalization: The HLDN Equation and its Advantages</h2>
+            <p class="mb-4">While the original HLD equations proved highly effective, their existence in slightly different forms, along with various definitions for the surfactant characteristic parameter (σ, β, Cc, etc.), sometimes led to confusion.<sup class="text-sky-500">7</sup> Applying them to complex systems like surfactant mixtures or natural oils also presented challenges.<sup class="text-sky-500">12</sup></p>
+            <p class="mb-4">To address these issues and create a more unified framework, the **Normalized Hydrophilic-Lipophilic Deviation (HLDN)** equation was introduced.<sup class="text-sky-500">1</sup> The normalization involves dividing the entire original HLD equation by the absolute value of the coefficient associated with the Alkane Carbon Number (ACN), often denoted as |K| or |K<sub>ACN</sub>|.<sup class="text-sky-500">12</sup></p>
+
+            <div class="mt-6 p-4 border border-gray-200 rounded-lg bg-white shadow">
+                <h3 class="text-lg font-semibold mb-3 text-center text-sky-800">HLD to HLDN Normalization (Conceptual)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                    <div class="text-center p-3 border-r border-gray-200">
+                        <p class="font-semibold mb-1">Original HLD = 0 Equation (Example Form)</p>
+                        <p class="font-mono bg-gray-100 p-2 rounded text-sm">Term(S) - K*ACN + Term(T) + Term(A) + Param(Surf) = 0</p>
+                    </div>
+                    <div class="text-center p-3">
+                         <p class="font-semibold mb-1">Normalized HLDN = 0 Equation</p>
+                         <p class="font-mono bg-gray-100 p-2 rounded text-sm"><span class="text-red-600 font-bold">(+1)</span>*SCP <span class="text-red-600 font-bold">(-1)</span>*ACN + k<sub>S</sub>*Term(S) + k<sub>T</sub>*Term(T) + k<sub>A</sub>*Term(A) ... = 0</p>
+                    </div>
+                </div>
+                 <p class="text-center mt-3 instructional-text">Normalization divides by |K|, setting the ACN coefficient to -1 and the Surfactant Contribution Parameter (SCP) coefficient to +1. Other coefficients (k<sub>S</sub>, k<sub>T</sub>, etc.) become relative to the ACN effect.</p>
+            </div>
+
+            <p class="mt-6 mb-4">The key features and advantages of the HLDN equation include<sup class="text-sky-500">12, 7</sup>:</p>
+            <ul class="list-disc list-inside mb-4 space-y-2 pl-4">
+                <li><strong>Standardized Coefficients:</strong> The coefficient for the oil term (ACN or EACN) is always -1, and for the Surfactant Contribution Parameter (SCP) is always +1.</li>
+                <li><strong>Reduced Confusion:</strong> Eliminates ambiguity from multiple historical HLD definitions and surfactant parameters (σ, β, Cc).</li>
+                <li><strong>Standardized Scale:</strong> Places all variables onto a common scale relative to the oil's ACN, aiding comparison of variable impacts.</li>
+                <li><strong>Unified Framework:</strong> A single HLDN structure applies to both ionic and nonionic surfactants (and mixtures).</li>
+                 <li><strong>Improved Handling of Mixtures:</strong> The normalized SCP term allows for more straightforward application of mixing rules.</li>
+            </ul>
+            <p>The development of HLDN reflects a pragmatic approach for a robust, unambiguous tool for formulation scientists dealing with real-world complexities.<sup class="text-sky-500">12</sup> It represents a refinement aimed at enhancing usability and consistency, presented as a "semiquantitative tool"<sup class="text-sky-500">1</sup> for practical formulation engineering.<sup class="text-sky-500">2</sup></p>
+        </section>
+
+         <section id="section-2-3" class="mb-12 p-6 rounded-lg shadow-lg section-bg-white dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-sky-700 border-b-2 border-sky-200 pb-2">2.3 The Surfactant Parameter: SCP and PACN</h2>
+            <p class="mb-4">Central to the HLDN equation is the **Surfactant Contribution Parameter (SCP)**.<sup class="text-sky-500">11</sup> This single term encapsulates the overall contribution of the surfactant's molecular structure (both head and tail) to the hydrophilic-lipophilic balance. It replaces parameters like σ, β, Cc from earlier formulations and always carries a coefficient of +1 in the HLDN equation.<sup class="text-sky-500">12</sup></p>
+            <p class="mb-4">It's crucial to understand that SCP is not an intrinsic constant of the surfactant molecule alone.<sup class="text-sky-500">7</sup> Its numerical value depends on integration constants and the specific reference conditions chosen for other variables (T<sub>ref</sub>, reference salinity, etc.).</p>
+            <p class="mb-4">To provide a more tangible measure, the concept of **Preferred Alkane Carbon Number (PACN)** was introduced.<sup class="text-sky-500">11</sup> PACN is the experimentally determined SCP value under standardized reference conditions (e.g., T=25°C, pure water or 1 wt% NaCl, WOR=1). Operationally, PACN is the ACN of the n-alkane oil that results in optimum formulation (HLDN=0) with the surfactant under these reference conditions, often found via an ACN scan.<sup class="text-sky-500">11</sup> PACN serves as a standardized, experimentally accessible descriptor of a surfactant's effective hydrophilicity/lipophilicity.</p>
+            <p class="mb-4">PACN (and thus SCP) is directly related to the surfactant's molecular structure<sup class="text-sky-500">7</sup>:</p>
+             <ul class="list-disc list-inside mb-4 space-y-2 pl-4">
+                <li><strong>Tail Length (SAT):</strong> Increasing hydrophobic tail length increases lipophilicity, thus <strong class="text-amber-700">increasing PACN</strong>. For linear alkyl tails, an approximate relationship is: PACN ≈ PACN<sub>0</sub> + 2.25 * SAT, where PACN<sub>0</sub> depends on the head group.<sup class="text-sky-500">12</sup></li>
+                <li><strong>Head Group Hydrophilicity:</strong> Making the head group more polar or larger (e.g., increasing Ethylene Oxide Number, EON; changing head group type) increases hydrophilicity, thus <strong class="text-blue-700">decreasing PACN</strong>.<sup class="text-sky-500">7</sup></li>
+            </ul>
+
+             <div id="interactive-pacn" class="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50 shadow-inner">
+                <h3 class="text-lg font-semibold mb-3 text-center text-sky-800">Conceptual PACN Explorer</h3>
+                <p class="instructional-text text-center mb-4">See how changing surfactant structure conceptually affects PACN.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="sat">Tail Length (SAT - No. Carbons): <span id="sat-value" class="font-mono text-sky-700">12</span></label>
+                        <input type="range" id="sat" name="sat" min="8" max="18" value="12" step="1">
+                    </div>
+                    <div>
+                        <label for="eon">Head Group Size (e.g., EON): <span id="eon-value" class="font-mono text-sky-700">5</span></label>
+                        <input type="range" id="eon" name="eon" min="1" max="10" value="5" step="1">
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <span class="text-md font-semibold">Conceptual PACN ≈</span>
+                    <span id="pacn-value" class="text-xl font-bold font-mono ml-2 text-sky-700">7.0</span>
+                </div>
+                 <p class="instructional-text text-center mt-2">Longer tail increases PACN; Larger head group decreases PACN.</p>
+            </div>
+
+            <p class="mt-6 mb-4">The introduction of PACN bridges the gap between the abstract SCP term and concrete experimental measurement, providing a practical way to characterize surfactants for HLDN calculations.<sup class="text-sky-500">12</sup></p>
+
+            <h3 class="text-lg font-semibold mt-6 mb-2 text-sky-800">Table 2.3: Experimentally Determined PACN Values (Illustrative)</h3>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Surfactant Type/Name</th>
+                            <th>Structure Example</th>
+                            <th>PACN (ACN units)</th>
+                            <th>Reference Conditions</th>
+                            <th>Source/Methodology Ref.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nonionic (C<sub>i</sub>E<sub>j</sub>)</td>
+                            <td>C<sub>10</sub>E<sub>4</sub></td>
+                            <td>~8.0</td>
+                            <td>T=25°C, Water</td>
+                            <td>Ref <sup class="text-sky-500">28</sup></td>
+                        </tr>
+                        <tr>
+                            <td>Nonionic (C<sub>i</sub>E<sub>j</sub>)</td>
+                            <td>C<sub>12</sub>E<sub>5</sub></td>
+                            <td>~6.0</td>
+                            <td>T=25°C, Water</td>
+                            <td>Ref <sup class="text-sky-500">40</sup> (PIT-slope derived)</td>
+                        </tr>
+                         <tr>
+                            <td>Nonionic (Polyglycerol)</td>
+                            <td>C<sub>12</sub>Gly<sub>2</sub></td>
+                            <td>~8.2</td>
+                            <td>T=25°C, Water</td>
+                            <td>Ref <sup class="text-sky-500">40</sup> (Dynamic PIT/ACN)</td>
+                        </tr>
+                        <tr>
+                            <td>Anionic (Sulfate)</td>
+                            <td>SDS (C<sub>12</sub> Sulfate)</td>
+                            <td>~13-15*</td>
+                            <td>T=25°C, 1% NaCl</td>
+                            <td>Estimated range based on HLD correlations, e.g., Ref <sup class="text-sky-500">14</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+             <p class="instructional-text">*Note: PACN values for ionic surfactants are highly sensitive to reference salinity.</p>
+        </section>
+
+        <section id="section-2-4" class="mb-12 p-6 rounded-lg shadow-lg section-bg-light dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-sky-700 border-b-2 border-sky-200 pb-2">2.4 Characterizing the Oil Phase: ACN and EACN</h2>
+            <p class="mb-4">The HLD and HLDN equations require a numerical parameter to represent the lipophilicity of the oil phase.<sup class="text-sky-500">1</sup> For simple linear normal alkanes (n-alkanes), this parameter is the **Alkane Carbon Number (ACN)**, the number of carbon atoms in the chain.<sup class="text-sky-500">1</sup></p>
+            <p class="mb-4">However, most real-world applications involve complex oils (crude oils, vegetable oils, esters, aromatics, etc.).<sup class="text-sky-500">1</sup> To handle these, the concept of **Equivalent Alkane Carbon Number (EACN)** was developed.<sup class="text-sky-500">11, 29</sup></p>
+            <blockquote class="my-4">
+                <strong>EACN:</strong> The ACN of a hypothetical n-alkane that exhibits the same phase behavior (produces optimum formulation under the same conditions) as the actual complex oil being studied.<sup class="text-sky-500">11</sup>
+            </blockquote>
+            <p class="mb-4">EACN quantifies the effective lipophilicity of a complex oil relative to the n-alkane scale within a SOW system context. Determining EACN is crucial for using HLDN predictively.</p>
+            <p class="mb-4">The primary experimental method is the "fish-tail method" (FTM).<sup class="text-sky-500">11</sup> This involves constructing a phase diagram ("fish diagram") for the oil with a reference nonionic surfactant (e.g., C<sub>10</sub>E<sub>4</sub>) and water, typically plotting Temperature vs. Surfactant Concentration.<sup class="text-sky-500">16</sup> The key point is the "fish tail temperature" (T*), where the three-phase region (WIII) meets the single-phase microemulsion region (WIV).<sup class="text-sky-500">20</sup></p>
+             <p class="mb-4">To find EACN, the T* measured for the unknown oil is compared to a calibration curve (T* vs. ACN) generated using the same reference surfactant with a series of n-alkanes.<sup class="text-sky-500">28</sup> The ACN corresponding to the oil's T* on this curve is its EACN. Studies showed EACN values determined this way were consistent.<sup class="text-sky-500">41</sup></p>
+
+             <div class="my-6 p-4 border border-dashed border-gray-300 rounded bg-white">
+                 <h4 class="text-lg font-semibold text-center text-sky-800 mb-2">Conceptual Fish Diagram (T vs. Conc.)</h4>
+                 <svg viewBox="0 0 400 300" class="fish-diagram-svg" aria-labelledby="fishDiagramTitle fishDiagramDesc">
+                     <title id="fishDiagramTitle">Conceptual Fish Diagram</title>
+                     <desc id="fishDiagramDesc">Diagram showing phase regions (WI, WII, WIII, WIV) as a function of temperature and surfactant concentration. Used for EACN determination via T*.</desc>
+
+                     <line x1="50" y1="250" x2="380" y2="250" class="svg-axis" /> <line x1="50" y1="250" x2="50" y2="20" class="svg-axis" /> <text x="215" y="275" text-anchor="middle" class="svg-label">Surfactant Concentration →</text>
+                     <text x="30" y="135" text-anchor="middle" transform="rotate(-90 30 135)" class="svg-label">Temperature →</text>
+
+                     <rect x="51" y="21" width="150" height="100" class="svg-wi-region" />
+                     <text x="100" y="70" class="svg-region-label">WI + Oil</text>
+
+                     <rect x="51" y="180" width="150" height="69" class="svg-wii-region" />
+                      <text x="90" y="220" class="svg-region-label">WII + Water</text>
+
+                     <path d="M 150 120 Q 250 130, 300 150 Q 250 170, 150 180 Z" class="svg-wiii-region"/>
+                     <text x="210" y="155" class="svg-region-label">WIII (3φ)</text>
+
+                     <path d="M 300 150 Q 350 150, 370 130 L 370 170 Q 350 150, 300 150 Z" class="svg-wiv-region"/>
+                     <text x="330" y="155" class="svg-region-label">WIV (1φ)</text>
+
+                      <circle cx="300" cy="150" r="4" class="svg-t-star"/>
+                     <line x1="50" y1="150" x2="300" y2="150" class="svg-t-star-line"/>
+                     <text x="45" y="145" text-anchor="end" class="svg-label" style="fill: #ef4444;">T*</text>
+                     <text x="305" y="145" class="svg-label" style="fill: #ef4444;">(Tail Point)</text>
+
+                 </svg>
+                 <p class="instructional-text text-center mt-2">This diagram plots Temperature vs. Surfactant Conc. The "fish tail" temperature (T*) where the 3-phase (WIII) and 1-phase (WIV) regions meet is key for determining EACN.</p>
+             </div>
+             <p>While reliable, the FTM can be time-consuming,<sup class="text-sky-500">29</sup> motivating efforts to develop predictive models for EACN using QSPR, COSMO-RS, or machine learning.<sup class="text-sky-500">20</sup> The EACN concept, coupled with rigorous experimental methods, was essential for extending the HLD/HLDN framework to complex industrial oils.<sup class="text-sky-500">19</sup></p>
+        </section>
+
+         <section id="section-2-5" class="mb-12 p-6 rounded-lg shadow-lg section-bg-white dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-sky-700 border-b-2 border-sky-200 pb-2">2.5 Variable Effects: Salinity (S), Temperature (T), Alcohol (f(A)), Pressure (P)</h2>
+            <p class="mb-4">The HLDN equation explicitly quantifies how different formulation variables shift the hydrophilic-lipophilic balance. Understanding these effects is key to manipulating formulations:</p>
+            <ul class="list-none mb-6 space-y-4">
+                <li class="p-3 bg-blue-50 rounded border border-blue-200">
+                    <strong class="text-blue-700">Salinity (S):</strong> Primarily influences <strong class="text-blue-700">ionic surfactants</strong>. Increasing electrolyte concentration (e.g., wt% NaCl) screens head group repulsion, reducing hydration. Surfactant behaves more <strong class="text-amber-700">lipophilic (HLDN increases)</strong>. Effect often modeled with <code class="code-like">k<sub>S</sub>*Ln(S)</code>.<sup class="text-sky-500">11</sup> Nonionics are much less sensitive (small linear effect <code class="code-like">k<sub>S</sub>'*S</code> sometimes included).<sup class="text-sky-500">11</sup>
+                </li>
+                <li class="p-3 bg-red-50 rounded border border-red-200">
+                     <strong class="text-red-700">Temperature (T):</strong> Most significant for <strong class="text-red-700">nonionic ethoxylates (C<sub>i</sub>E<sub>j</sub>)</strong>. Increasing T disrupts hydrogen bonding between EO groups and water, reducing hydration. Surfactant behaves more <strong class="text-amber-700">lipophilic (HLDN increases)</strong>. Effect usually modeled linearly <code class="code-like">k<sub>T</sub>*(T-T<sub>ref</sub>)</code>.<sup class="text-sky-500">11</sup> Ionic surfactants generally show much lower temperature sensitivity.
+                </li>
+                 <li class="p-3 bg-green-50 rounded border border-green-200">
+                    <strong class="text-green-700">Alcohol (f(A)):</strong> Effect depends on alcohol chain length and concentration.<sup class="text-sky-500">11</sup>
+                    <ul class="list-disc list-inside mt-1 pl-4 text-sm">
+                        <li>Short-chain (C2-C4): Often partition to interface/water, increase effective head group area, making system more <strong class="text-blue-700">hydrophilic (HLDN decreases)</strong>.</li>
+                        <li>Longer-chain (C5+): Partition more to oil/interface tail region, act as lipophilic linkers, making system more <strong class="text-amber-700">lipophilic (HLDN increases)</strong>.</li>
+                    </ul>
+                     Effect captured by <code class="code-like">k<sub>A</sub>*f(A)</code> term.<sup class="text-sky-500">4, 47</sup>
+                </li>
+                 <li class="p-3 bg-gray-50 rounded border border-gray-200">
+                     <strong class="text-gray-700">Pressure (P):</strong> Generally smaller effect, relevant at high pressures (e.g., EOR). Increasing P can enhance water structure/hydration, making surfactants slightly more <strong class="text-blue-700">hydrophilic (HLDN decreases)</strong>.<sup class="text-sky-500">11</sup> Represented by <code class="code-like">k<sub>P</sub>*(P-P<sub>ref</sub>)</code> term.<sup class="text-sky-500">11</sup>
+                </li>
+            </ul>
+
+            <h3 class="text-lg font-semibold mt-6 mb-2 text-sky-800">The Compensation Principle</h3>
+            <p class="mb-4">A fundamental concept arising from these relationships is **compensation**. Because multiple variables influence HLDN, a change in one variable shifting the system away from optimum (HLDN=0) can often be counteracted by adjusting another variable.<sup class="text-sky-500">1</sup></p>
+            <blockquote class="my-4">
+                Example: If salinity increases (making an ionic system more lipophilic, HLDN > 0), balance (HLDN=0) can be restored by using a more lipophilic oil (increasing ACN) or a more hydrophilic surfactant (decreasing SCP).<sup class="text-sky-500">1</sup>
+            </blockquote>
+            <p>The HLDN equation provides the quantitative basis for predicting these compensations.</p>
+
+            <div id="interactive-hldn-calculator" class="mt-8 p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-inner">
+                <h3 class="text-xl font-semibold mb-4 text-center text-sky-700">Interactive HLDN Calculator & Compensator</h3>
+                <p class="instructional-text text-center mb-4">Explore the HLDN equation and the compensation principle. Set initial values, see the HLDN, then change one variable and calculate the required compensation in another to return to HLDN ≈ 0.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="space-y-3 lg:col-span-1">
+                        <h4 class="font-semibold text-sky-800 border-b pb-1">1. Set Parameters</h4>
+                        <div>
+                            <label for="calc-type" class="text-sm">Surfactant Type:</label>
+                            <select id="calc-type" name="calc-type" class="text-sm">
+                                <option value="nonionic" selected>Nonionic (Ethoxylate)</option>
+                                <option value="anionic">Anionic (Sulfonate)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="calc-scp" class="text-sm">SCP (or σ, β):</label>
+                            <input type="number" id="calc-scp" name="calc-scp" value="10.0" step="0.1">
+                        </div>
+                        <div>
+                            <label for="calc-acn" class="text-sm">ACN / EACN:</label>
+                            <input type="number" id="calc-acn" name="calc-acn" value="10" step="1">
+                        </div>
+                        <div>
+                            <label for="calc-salinity" class="text-sm">Salinity (S, wt%):</label>
+                            <input type="number" id="calc-salinity" name="calc-salinity" value="1.0" step="0.1" min="0.01"> </div>
+                        <div>
+                            <label for="calc-temp" class="text-sm">Temperature (T, °C):</label>
+                            <input type="number" id="calc-temp" name="calc-temp" value="25" step="1">
+                        </div>
+                        <div>
+                             <label for="calc-alcohol" class="text-sm">Alcohol Effect (f(A)*k<sub>A</sub>):</label>
+                            <input type="number" id="calc-alcohol" name="calc-alcohol" value="0" step="0.1" title="Simplified combined effect. Positive for lipophilic alcohol, negative for hydrophilic.">
+                        </div>
+                         </div>
+
+                    <div class="space-y-3 lg:col-span-1">
+                         <h4 class="font-semibold text-sky-800 border-b pb-1">2. Calculate HLDN</h4>
+                         <button id="calculate-btn" class="w-full">Calculate Initial HLDN</button>
+                         <div class="text-center mt-2">
+                            <span class="font-semibold">Calculated HLDN:</span>
+                            <span id="hldn-result" class="text-2xl font-bold font-mono ml-2 text-sky-700">--</span>
+                         </div>
+                         <hr class="my-4">
+                         <h4 class="font-semibold text-sky-800 border-b pb-1">3. Compensate to HLDN ≈ 0</h4>
+                         <p class="instructional-text text-xs">Change one value above, then select which *other* parameter to adjust for compensation.</p>
+                         <div>
+                             <label for="compensate-var" class="text-sm">Adjust This to Compensate:</label>
+                             <select id="compensate-var" name="compensate-var" class="text-sm">
+                                 <option value="scp">SCP / σ / β</option>
+                                 <option value="acn">ACN / EACN</option>
+                                 <option value="salinity">Salinity (S)</option>
+                                 <option value="temp">Temperature (T)</option>
+                                 <option value="alcohol">Alcohol Effect</option>
+                             </select>
+                         </div>
+                         <button id="compensate-btn" class="w-full">Calculate Compensation</button>
+                    </div>
+
+                     <div class="space-y-3 lg:col-span-1 bg-sky-50 p-4 rounded-lg border border-sky-200">
+                         <h4 class="font-semibold text-sky-800 border-b pb-1">Results</h4>
+                         <div id="compensation-result" class="instructional-text min-h-[50px]">
+                            Initial HLDN calculation result will appear here. After changing a value and clicking 'Calculate Compensation', the required adjustment will be shown.
+                         </div>
+                    </div>
+                </div>
+            </div>
+            </section>
+
+        <section id="section-2-6" class="mb-12 p-6 rounded-lg shadow-lg section-bg-light dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-sky-700 border-b-2 border-sky-200 pb-2">2.6 HLDN Coefficients: Meaning and Typical Values</h2>
+            <p class="mb-4">The coefficients (k<sub>S</sub>, k<sub>A</sub>, k<sub>T</sub>, k<sub>P</sub>) in the HLDN equation represent the sensitivity of the system's hydrophilic-lipophilic deviation to a unit change in the corresponding formulation variable, normalized relative to the ACN effect.<sup class="text-sky-500">11</sup> Their values depend significantly on the surfactant type and system components.</p>
+            <ul class="list-disc list-inside mb-4 space-y-2 pl-4">
+                <li><strong>k<sub>S</sub> (Salinity Coefficient):</strong> Positive. Large for ionic surfactants (often with LnS), reflecting strong electrolyte screening effect. Much smaller for nonionics (often linear S).<sup class="text-sky-500">11</sup></li>
+                <li><strong>k<sub>T</sub> (Temperature Coefficient):</strong> Positive. Large for nonionic ethoxylates due to EO dehydration. Generally small for ionics.<sup class="text-sky-500">11</sup></li>
+                <li><strong>k<sub>A</sub> (Alcohol Coefficient):</strong> Sign and magnitude depend on alcohol/surfactant specifics (hydrophilic vs. lipophilic contribution).<sup class="text-sky-500">11</sup></li>
+                <li><strong>k<sub>P</sub> (Pressure Coefficient):</strong> Generally small and negative (slight hydrophilic shift with increasing P).<sup class="text-sky-500">11</sup></li>
+            </ul>
+            <p class="mb-4">Obtaining accurate coefficient values is essential for quantitative HLDN application. While comprehensive tabulation requires consulting broader experimental work,<sup class="text-sky-500">14, 48</sup> understanding typical relative magnitudes is pedagogically important.</p>
+
+             <h3 class="text-lg font-semibold mt-6 mb-2 text-sky-800">Table 2.6: Typical HLDN Coefficient Magnitudes (Illustrative)</h3>
+             <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Coefficient (Normalized)</th>
+                            <th>Variable</th>
+                            <th>Typical Sign</th>
+                            <th>Relative Magnitude (Ionic)</th>
+                            <th>Relative Magnitude (Nonionic C<sub>i</sub>E<sub>j</sub>)</th>
+                            <th>Units (Normalized)</th>
+                            <th>Methodology Ref.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>k<sub>S</sub> (for LnS)</td>
+                            <td>Salinity</td>
+                            <td>+</td>
+                            <td>Large</td>
+                            <td>N/A (usually linear)</td>
+                            <td>ACN / Ln(wt%)</td>
+                            <td>Ref <sup class="text-sky-500">11</sup></td>
+                        </tr>
+                        <tr>
+                            <td>k<sub>S</sub>' (for S)</td>
+                            <td>Salinity</td>
+                            <td>+</td>
+                            <td>Small</td>
+                            <td>Small</td>
+                            <td>ACN / wt%</td>
+                             <td>Ref <sup class="text-sky-500">11</sup></td>
+                        </tr>
+                        <tr>
+                            <td>k<sub>T</sub></td>
+                            <td>Temperature</td>
+                            <td>+</td>
+                            <td>Small</td>
+                            <td>Large</td>
+                            <td>ACN / °C</td>
+                             <td>Ref <sup class="text-sky-500">11</sup></td>
+                        </tr>
+                        <tr>
+                            <td>k<sub>A</sub></td>
+                            <td>Alcohol</td>
+                            <td>+/-</td>
+                            <td>Variable</td>
+                             <td>Variable</td>
+                            <td>ACN / f(conc)</td>
+                             <td>Ref <sup class="text-sky-500">11</sup></td>
+                        </tr>
+                        <tr>
+                            <td>k<sub>P</sub></td>
+                            <td>Pressure</td>
+                            <td>-</td>
+                            <td>Small</td>
+                            <td>Small</td>
+                            <td>ACN / atm</td>
+                             <td>Ref <sup class="text-sky-500">11</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+             <p class="instructional-text">*Note: "Large" and "Small" are relative terms for typical formulation ranges. Specific values depend heavily on the exact surfactant structure and system.</p>
+
+            <p class="mt-4">The HLDN framework provides a general structure, but its practical predictive power hinges on having reliable values for these system-dependent coefficients, often determined experimentally for specific systems or surfactant series.<sup class="text-sky-500">14</sup></p>
+        </section>
+
+
+        <footer class="mt-16 pt-8 border-t border-gray-300 text-sm text-gray-600">
+            <h3 class="text-lg font-semibold mb-3 text-gray-700">References</h3>
+            <ul>
+                <li> Griffin, W. C. (1949). Classification of Surface-Active Agents by "HLB". <i>Journal of the Society of Cosmetic Chemists, 1</i>(5), 311–326. <em>(Representative citation for HLB concept)</em>
+                </li>
+                <li> Winsor, P. A. (1954). <i>Solvent Properties of Amphiphilic Compounds</i>. Butterworths Scientific Publications. <em>(Representative citation for Winsor's work)</em>
+                </li>
+                <li> Salager, J. L., Forgiarini, A. M., & Marquez, R. (n.d.). Formulation in Surfactant Systems: From-Winsor-to-HLDN. <i>MDPI</i>. Retrieved from <a href="https://www.mdpi.com/2673-8392/2/2/54" target="_blank">https://www.mdpi.com/2673-8392/2/2/54</a> or <a href="https://www.researchgate.net/publication/358967682_Formulation_in_Surfactant_Systems_From-Winsor-to-HLDN" target="_blank">ResearchGate</a> or <a href="https://ouci.dntb.gov.ua/en/works/4NG6eyOl/" target="_blank">OUCI</a>
+                </li>
+                <li> Salager, J. L., et al. (n.d.). Multivariable Formulation of Surfactant-Oil-Water Systems. <i>Encyclopedia MDPI</i>. Retrieved from <a href="https://encyclopedia.pub/entry/1772" target="_blank">https://encyclopedia.pub/entry/1772</a>
+                </li>
+                <li> Salager, J. L., et al. (n.d.). Multivariable Formulation of Surfactant-Oil- Water Systems [PDF]. <i>Scholarly Community Encyclopedia</i>. Retrieved from <a href="https://encyclopedia.pub/item/download_pdf/e4c1421e1c5445f025381ec8dc496d6d" target="_blank">https://encyclopedia.pub/item/download_pdf/e4c1421e1c5445f025381ec8dc496d6d</a>
+                </li>
+                <li> Salager, J. L. (n.d.). [Chapter from FIRP publication, specific title unknown] [PDF]. <i>FIRP Laboratory (es.firp-ula.org)</i>. Retrieved from <a href="https://es.firp-ula.org/wp-content/uploads/2019/07/88_Chap_Salager.pdf" target="_blank">https://es.firp-ula.org/wp-content/uploads/2019/07/88_Chap_Salager.pdf</a>
+                </li>
+                <li> Salager, J. L. (n.d.). Enhanced Oil Recovery by Surfactant Injection was improved during the Last 50 Years Thanks to the Multivariable HLD Formulation Equation [PDF]. <i>Petroleum & Petrochemical Engineering Journal (PPEJ), Medwin Publishers</i>. Retrieved from <a href="https://medwinpublishers.com/PPEJ/enhanced-oil-recovery-by-surfactant-injection-was-improved-during-the-last-50-years-thanks-to-the-multivariable-hld-formulation-equation.pdf" target="_blank">https://medwinpublishers.com/PPEJ/enhanced-oil-recovery-by-surfactant-injection-was-improved-during-the-last-50-years-thanks-to-the-multivariable-hld-formulation-equation.pdf</a>
+                </li>
+                <li> Salager, J. L., et al. (n.d.). Analyzing the surfactant classification confusion through the HLD formulation equation. <i>ResearchGate</i>. Retrieved from <a href="https://www.researchgate.net/publication/363305121_Analyzing_the_surfactant_classification_confusion_through_the_HLD_formulation_equation" target="_blank">https://www.researchgate.net/publication/363305121_Analyzing_the_surfactant_classification_confusion_through_the_HLD_formulation_equation</a>
+                </li>
+                <li> Salager, J. L. (n.d.). [Publication related to cosmetics, specific title unknown] [PDF]. <i>Semantic Scholar</i>. Retrieved from <a href="https://pdfs.semanticscholar.org/41ee/06f887b7e3a2f7169c85875d7aa29bddf177.pdf" target="_blank">https://pdfs.semanticscholar.org/41ee/06f887b7e3a2f7169c85875d7aa29bddf177.pdf</a>
+                </li>
+                 <li> Marquez, R., et al. (2023). Advantages and limitations of different methods to determine the optimum formulation in surfactant–oil–water systems: A review [PDF]. <i>Journal of Surfactants and Detergents</i>. Retrieved from <a href="https://www.researchgate.net/publication/374754490_Advantages_and_limitations_of_different_methods_to_determine_the_optimum_formulation_in_surfactant-oil-water_systems_A_review" target="_blank">ResearchGate</a> or <a href="https://lilloa.univ-lille.fr/bitstream/handle/20.500.12210/88487/J%20Surfact%20Detergents%20-%202023%20-%20Marquez%20-%20Advantages%20and%20limitations%20of%20different%20methods%20to%20determine%20the%20optimum.pdf?sequence=1&isAllowed=y" target="_blank">LillOA</a>
+                </li>
+                <li> Salager, J. L., Forgiarini, A. M., Marquez, R., & Peña, A. A. (2020). How to Use the Normalized Hydrophilic-Lipophilic Deviation (HLDN) Concept for the Formulation of Equilibrated and Emulsified Surfactant-Oil-Water Systems for Cosmetics and Pharmaceutical Products. <i>Cosmetics, 7</i>(3), 57. <a href="https://doi.org/10.3390/cosmetics7030057" target="_blank">https://doi.org/10.3390/cosmetics7030057</a> or Retrieved from <a href="https://www.mdpi.com/2079-9284/7/3/57" target="_blank">https://www.mdpi.com/2079-9284/7/3/57</a>
+                </li>
+                 <li> Salager, J. L. (n.d.). [FIRP Booklet E719B, specific title unknown] [PDF]. <i>FIRP Laboratory (es.firp-ula.org)</i>. Retrieved from <a href="https://es.firp-ula.org/wp-content/uploads/2020/05/E719B.pdf" target="_blank">https://es.firp-ula.org/wp-content/uploads/2020/05/E719B.pdf</a>
+                </li>
+                <li> Salager, J. L., Forgiarini, A. M., Bullon, J., & Antón, R. E. (2013). How to Attain an Ultralow Interfacial Tension and a Three-Phase Behavior with a Surfactant Formulation for Enhanced Oil Recovery: A Review. Part 2. Performance Improvement Trends from Winsor's Premise to Currently Proposed Inter- and Intra-Molecular Mixtures. <i>Journal of Surfactants and Detergents, 16</i>(6), 631-663. <a href="https://doi.org/10.1007/s11743-013-1505-8" target="_blank">https://doi.org/10.1007/s11743-013-1505-8</a> or Retrieved from <a href="https://www.researchgate.net/publication/255955509_How_to_Attain_an_Ultralow_Interfacial_Tension_and_a_Three-Phase_Behavior_with_a_Surfactant_Formulation_for_Enhanced_Oil_Recovery_A_Review_Part_2_Performance_Improvement_Trends_from_Winsor's_Premise_to" target="_blank">ResearchGate</a> or <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3740119/" target="_blank">PubMed Central</a>
+                </li>
+                <li> Salager, J. L. (n.d.). DYNAMICS OF NEAR-ZERO ENERGY EMULSIFICATION [PDF]. <i>CESIO Presentation, FIRP Laboratory (es.firp-ula.org)</i>. Retrieved from <a href="https://es.firp-ula.org/wp-content/uploads/2019/07/04_CESIO_Salager_203.pdf" target="_blank">https://es.firp-ula.org/wp-content/uploads/2019/07/04_CESIO_Salager_203.pdf</a>
+                </li>
+                <li> Lemahieu, G., et al. (2023). Rheology as a tool for identifying and characterizing optimal microemulsions formulations. <i>Journal of Surfactants and Detergents</i>. <a href="https://doi.org/10.1002/jsde.12827" target="_blank">https://doi.org/10.1002/jsde.12827</a>
+                </li>
+                 <li> Salager, J. L., et al. (n.d.). Reliable Equivalent Alkane Carbon Number Determination for Dead and Live Crudes in Microemulsion Systems. <i>SPE Journal (SJ), OnePetro</i>. Retrieved from <a href="https://onepetro.org/SJ/article/29/09/4935/546851/Reliable-Equivalent-Alkane-Carbon-Number" target="_blank">https://onepetro.org/SJ/article/29/09/4935/546851/Reliable-Equivalent-Alkane-Carbon-Number</a>
+                </li>
+                <li> Salager, J. L., et al. (2019). Use of the normalized hydrophilic-lipophilic-deviation (HLDN) equation for determining the equivalent alkane carbon number (EACN) of oils and the preferred alkane carbon number (PACN) of nonionic surfactants by the fish-tail method (FTM). <i>Advances in Colloid and Interface Science, 277</i>, 102118. <a href="https://doi.org/10.1016/j.cis.2019.102118" target="_blank">https://doi.org/10.1016/j.cis.2019.102118</a> or Retrieved from <a href="https://lilloa.univ-lille.fr/bitstream/handle/20.500.12210/58367/1-s2.0-S0001868619303355-am.pdf?sequence=1&isAllowed=y" target="_blank">LillOA</a> or <a href="https://pubmed.ncbi.nlm.nih.gov/31931276/" target="_blank">PubMed</a>
+                </li>
+                <li> Salager, J. L., et al. (n.d.). How to use in practice a simplified HLDN linear equation for surfactant mixtures [PDF]. <i>ResearchGate</i>. Retrieved from <a href="https://www.researchgate.net/publication/365029664_How_to_use_in_practice_a_simplified_HLDN_linear_equation_for_surfactant_mixtures" target="_blank">https://www.researchgate.net/publication/365029664_How_to_use_in_practice_a_simplified_HLDN_linear_equation_for_surfactant_mixtures</a>
+                </li>
+                <li> Salager, J. L., et al. (n.d.). Enhancing Oil-Uptake Efficiency with an Alkyl Polyglycoside–Dodecanol Formulation. <i>OUCI</i>. Retrieved from <a href="https://ouci.dntb.gov.ua/en/works/4r3ER0Yl/" target="_blank">https://ouci.dntb.gov.ua/en/works/4r3ER0Yl/</a>
+                </li>
+                <li> Salager, J. L., Marquez, R., Forgiarini, A. M., & Zambrano, N. (2023). Review on Some Confusion Produced by the Bicontinuous Microemulsion Terminology and Its Domains Microcurvature: A Simple Spatiotemporal Model at Optimum Formulation of Surfactant-Oil-Water Systems. <i>ACS Omega, 8</i>(11), 10008–10017. <a href="https://doi.org/10.1021/acsomega.3c00547" target="_blank">https://doi.org/10.1021/acsomega.3c00547</a> or Retrieved from <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10018710/" target="_blank">PubMed Central</a>
+                </li>
+                 <li> Salager, J. L., et al. (n.d.). Classification of ester oils according to their Equivalent Alkane Carbon Number (EACN) and asymmetry of fish diagrams of C10E4/ester oil/water systems [PDF]. <i>ResearchGate</i>. Retrieved from <a href="https://www.researchgate.net/publication/236836110_Classification_of_ester_oils_according_to_their_Equivalent_Alkane_Carbon_Number_EACN_and_asymmetry_of_fish_diagrams_of_C10E4ester_oilwater_systems" target="_blank">https://www.researchgate.net/publication/236836110_Classification_of_ester_oils_according_to_their_Equivalent_Alkane_Carbon_Number_EACN_and_asymmetry_of_fish_diagrams_of_C10E4ester_oilwater_systems</a>
+                </li>
+                <li> Salager, J. L., et al. (2022). Fast Prediction of the Equivalent Alkane Carbon Number Using Graph Machines and Neural Networks. <i>ACS Omega, 7</i>(34), 30341–30351. <a href="https://doi.org/10.1021/acsomega.2c04592" target="_blank">https://doi.org/10.1021/acsomega.2c04592</a>
+                </li>
+                <li> Salager, J. L., Forgiarini, A. M., & Marquez, R. (2021). Formulation Improvements in the Applications of Surfactant–Oil–Water Systems Using the HLDN Approach with Extended Surfactant Structure. <i>Molecules, 26</i>(12), 3714. <a href="https://doi.org/10.3390/molecules26123714" target="_blank">https://doi.org/10.3390/molecules26123714</a> or Retrieved from <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8234877/" target="_blank">PubMed Central</a> or <a href="https://pubmed.ncbi.nlm.nih.gov/34205697/" target="_blank">PubMed</a>
+                </li>
+                <li> Salager, J. L., et al. (2016). Dimensionless Equation of State to Predict Microemulsion Phase Behavior. <i>Langmuir, 32</i>(34), 8665–8671. <a href="https://doi.org/10.1021/acs.langmuir.6b02666" target="_blank">https://doi.org/10.1021/acs.langmuir.6b02666</a>
+                </li>
+                 <li> Salager, J. L. (n.d.). Formulation of microemulsions by the HLD method (Conclusion section). <i>Techniques de l'Ingénieur</i>. Retrieved from <a href="https://www.techniques-ingenieur.fr/en/resources/article/ti453/formulation-of-microemulsions-by-the-hld-method-j2157/v1/conclusion-6" target="_blank">https://www.techniques-ingenieur.fr/en/resources/article/ti453/formulation-of-microemulsions-by-the-hld-method-j2157/v1/conclusion-6</a>
+                </li>
+                <li> Salager, J. L., et al. (2021). Fundamental Basis for Action of a Chemical Demulsifier Revisited after 30 Years: HLDN as the Primary Criterion for Water-in-Crude Oil Emulsion Breaking. <i>Energy & Fuels, 35</i>(21), 17704–17714. <a href="https://doi.org/10.1021/acs.energyfuels.1c03349" target="_blank">https://doi.org/10.1021/acs.energyfuels.1c03349</a>
+                </li>
+                <li> Salager, J. L., et al. (n.d.). Determining the Preferred Alkane Carbon Number (PACN) of nonionic surfactants using the PIT-slope method [Request PDF]. <i>ResearchGate</i>. Retrieved from <a href="https://www.researchgate.net/publication/318935717_Determining_the_Preferred_Alkane_Carbon_Number_PACN_of_nonionic_surfactants_using_the_PIT-slope_method" target="_blank">https://www.researchgate.net/publication/318935717_Determining_the_Preferred_Alkane_Carbon_Number_PACN_of_nonionic_surfactants_using_the_PIT-slope_method</a>
+                </li>
+                <li> Salager, J. L., et al. (n.d.). The EACN scale for oil classification revisited thanks to fish diagrams. <i>ResearchGate</i>. Retrieved from <a href="https://www.researchgate.net/publication/6288545_The_EACN_scale_for_oil_classification_revisited_thanks_to_fish_diagrams" target="_blank">https://www.researchgate.net/publication/6288545_The_EACN_scale_for_oil_classification_revisited_thanks_to_fish_diagrams</a>
+                </li>
+                <li> Salager, J. L., et al. (n.d.). Estimating Equivalent Alkane Carbon Number Using Abraham Solute Parameters. <i>ChemPhysChem?, MDPI</i>. Retrieved from <a href="https://www.mdpi.com/2673-8015/2/4/19" target="_blank">https://www.mdpi.com/2673-8015/2/4/19</a>
+                </li>
+                 <li> Salager, J. L., et al. (2015). Rationalization and Prediction of the Equivalent Alkane Carbon Number (EACN) of Polar Hydrocarbon Oils with COSMO-RS σ-Moments. <i>Langmuir, 31</i>(34), 9293–9302. <a href="https://doi.org/10.1021/acs.langmuir.5b02545" target="_blank">https://doi.org/10.1021/acs.langmuir.5b02545</a> or <a href="https://www.researchgate.net/publication/282127039_Rationalization_and_Prediction_of_the_Equivalent_Alkane_Carbon_Number_EACN_of_Polar_Hydrocarbon_Oils_with_COSMO-RS_sigma-Moments" target="_blank">ResearchGate</a>
+                </li>
+                <li> Salager, J. L., et al. (2010). A QSPR Model for the Prediction of the “Fish-Tail” Temperature of CiE4/Water/Polar Hydrocarbon Oil Systems. <i>Langmuir, 26</i>(12), 9498–9504. <a href="https://doi.org/10.1021/la904836m" target="_blank">https://doi.org/10.1021/la904836m</a>
+                </li>
+                <li> Salager, J. L., et al. (1991). Retrograde Transition in the Phase Behavior of Surfactant-Oil-Water Systems Produced by an Alcohol Scan. <i>Langmuir, 7</i>(1), 18–22. <a href="https://doi.org/10.1021/la00001a010" target="_blank">https://doi.org/10.1021/la00001a010</a>
+                </li>
+                <li> Salager, J. L., et al. (2024). Empirical Relationship among the Parameters in HLD Equation of Block Polyether Water Clarifier. <i>ACS Omega, 9</i>(17), 18888–18896. <a href="https://doi.org/10.1021/acsomega.4c01730" target="_blank">https://doi.org/10.1021/acsomega.4c01730</a>
+                </li>
+                <li> Salager, J. L., et al. (2002). Partitioning of Ethoxylated Alkylphenol Surfactants in Microemulsion−Oil−Water Systems: Influence of Physicochemical Formulation Variables. <i>Langmuir, 18</i>(18), 6746–6754. <a href="https://doi.org/10.1021/la020199o" target="_blank">https://doi.org/10.1021/la020199o</a>
+                </li>
+                 <li> Salager, J. L., et al. (n.d.). Mixing Rules for Optimum Phase-Behavior Formulations of Surfactant/Oil/Water Systems. <i>ResearchGate</i>. Retrieved from <a href="https://www.researchgate.net/publication/250090551_Mixing_Rules_for_Optimum_Phase-Behavior_Formulations_of_SurfactantOilWater_Systems" target="_blank">https://www.researchgate.net/publication/250090551_Mixing_Rules_for_Optimum_Phase-Behavior_Formulations_of_SurfactantOilWater_Systems</a>
+                </li>
+                 <li> Salager, J. L., et al. (2010). Phase Behavior of an Extended Surfactant in Water and a Detailed Characterization of the Concentrated Phases. <i>Langmuir, 26</i>(20), 15686–15696. <a href="https://doi.org/10.1021/la103037q" target="_blank">https://doi.org/10.1021/la103037q</a>
+                </li>
+                <li> Salager, J. L. (n.d.). Extended Surfactants Using HLDN approach. <i>Scholarly Community Encyclopedia</i>. Retrieved from <a href="https://encyclopedia.pub/entry/11630" target="_blank">https://encyclopedia.pub/entry/11630</a>
+                </li>
+                 <li> Salager, J. L., et al. (n.d.). Statistical simplex centroid experimental design and formulation maps to predict the stability in cosmetic emulsions containing commercial emulsifiers [PDF]. <i>ResearchGate</i>. Retrieved from <a href="https://www.researchgate.net/publication/390265688_Statistical_simplex_centroid_experimental_design_and_formulation_maps_to_predict_the_stability_in_cosmetic_emulsions_containing_commercial_emulsifiers" target="_blank">https://www.researchgate.net/publication/390265688_Statistical_simplex_centroid_experimental_design_and_formulation_maps_to_predict_the_stability_in_cosmetic_emulsions_containing_commercial_emulsifiers</a>
+                </li>
+                 <li> Salager, J. L. (n.d.). [FIRP Booklet E201-A, specific title unknown] [PDF]. <i>FIRP Laboratory (es.firp-ula.org)</i>. Retrieved from <a href="https://es.firp-ula.org/wp-content/uploads/2019/07/E201A.pdf" target="_blank">https://es.firp-ula.org/wp-content/uploads/2019/07/E201A.pdf</a>
+                </li>
+                 <li> Salager, J. L., et al. (n.d.). Prediction of the equivalent alkane carbon number (EACN) of. <i>OUCI</i>. Retrieved from <a href="https://ouci.dntb.gov.ua/en/works/4r5GmBM7/" target="_blank">https://ouci.dntb.gov.ua/en/works/4r5GmBM7/</a>
+                </li>
+                <li> Salager, J. L., et al. (2024). Recent Advances in Enhanced Oil Recovery with Low-Salinity Waterflooding and Its Hybrid Methods in Carbonate Reservoirs. <i>Energy & Fuels, 38</i>(11), 9291–9311. <a href="https://doi.org/10.1021/acs.energyfuels.4c06023" target="_blank">https://doi.org/10.1021/acs.energyfuels.4c06023</a>
+                </li>
+            </ul>
+            <p class="mt-6 text-center text-xs text-gray-500">HLD/HLDN Course - Module 2 | Content based on the work of J.L. Salager and collaborators.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Intersection Observer for Fade-In Animation ---
+        const sections_m2 = document.querySelectorAll('.dynamic-content');
+        const observerOptions_m2 = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observerCallback_m2 = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-section');
+                    observer.unobserve(entry.target);
+                }
+            });
+        };
+        const observer_m2 = new IntersectionObserver(observerCallback_m2, observerOptions_m2);
+        sections_m2.forEach(section => { observer_m2.observe(section); });
+
+        // --- Interactive PACN Explorer ---
+        const satSlider = document.getElementById('sat');
+        const eonSlider = document.getElementById('eon');
+        const satValueSpan = document.getElementById('sat-value');
+        const eonValueSpan = document.getElementById('eon-value');
+        const pacnValueSpan = document.getElementById('pacn-value');
+
+        function updateConceptualPACN() {
+            // Ensure sliders exist before proceeding
+            if (!satSlider || !eonSlider || !pacnValueSpan || !satValueSpan || !eonValueSpan) return;
+
+            const sat = parseInt(satSlider.value);
+            const eon = parseInt(eonSlider.value);
+            satValueSpan.textContent = sat;
+            eonValueSpan.textContent = eon;
+
+            // Simple conceptual formula: PACN = Base + TailContribution - HeadContribution
+            const basePACN = -5; // Base value dependent on head group type before EON
+            const tailCoeff = 2.25; // From text
+            const headCoeff = 1.5; // Arbitrary coefficient for EON effect
+            const conceptualPACN = basePACN + tailCoeff * sat - headCoeff * eon;
+            pacnValueSpan.textContent = conceptualPACN.toFixed(1);
+        }
+        // Add listeners only if elements exist
+        if (satSlider && eonSlider && pacnValueSpan) {
+             satSlider.addEventListener('input', updateConceptualPACN);
+             eonSlider.addEventListener('input', updateConceptualPACN);
+             // Run on load only if elements were found
+             window.addEventListener('load', updateConceptualPACN);
+        }
+
+
+        // --- HLDN Calculator & Compensator ---
+        const calcTypeSelect = document.getElementById('calc-type');
+        const calcScpInput = document.getElementById('calc-scp');
+        const calcAcnInput = document.getElementById('calc-acn');
+        const calcSalinityInput = document.getElementById('calc-salinity');
+        const calcTempInput = document.getElementById('calc-temp');
+        const calcAlcoholInput = document.getElementById('calc-alcohol');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const hldnResultSpan = document.getElementById('hldn-result');
+        const compensateVarSelect = document.getElementById('compensate-var');
+        const compensateBtn = document.getElementById('compensate-btn');
+        const compensationResultDiv = document.getElementById('compensation-result');
+
+        // HLDN Coefficients (Based loosely on Table 2.6 magnitudes)
+        const Tref_calc = 25.0;
+        const coeffs = {
+            nonionic: { kS: 0.1, kT: 0.15, kA: 0.5, kP: -0.005, salinityMode: 'linear' }, // kA sign/mag arbitrary
+            anionic: { kS: 1.5, kT: 0.01, kA: 0.5, kP: -0.005, salinityMode: 'ln' }      // kA sign/mag arbitrary
+        };
+
+        // Function to get coefficients for the currently selected surfactant type
+        function getCurrentCoeffs() {
+            // Ensure select element exists
+            if (!calcTypeSelect) return coeffs.nonionic; // Default if element not found
+            const type = calcTypeSelect.value;
+            return coeffs[type] || coeffs.nonionic; // Default if type invalid
+        }
+
+        // Function to calculate HLDN based on current input values
+        function calculateHLDN_fromInputs() {
+            try {
+                // Ensure all input elements exist before reading values
+                if (!calcScpInput || !calcAcnInput || !calcSalinityInput || !calcTempInput || !calcAlcoholInput) {
+                    console.error("One or more calculator input elements not found.");
+                    return NaN;
+                }
+
+                const C = getCurrentCoeffs();
+                const scp = parseFloat(calcScpInput.value);
+                const acn = parseFloat(calcAcnInput.value);
+                const S = parseFloat(calcSalinityInput.value);
+                const T = parseFloat(calcTempInput.value);
+                const alcEffect = parseFloat(calcAlcoholInput.value); // This is pre-multiplied kA*f(A) for simplicity
+
+                // Validate inputs
+                if (isNaN(scp) || isNaN(acn) || isNaN(S) || isNaN(T) || isNaN(alcEffect)) {
+                    console.warn("Invalid number input detected.");
+                    return NaN; // Indicate invalid input
+                }
+                // Check for non-positive salinity when using Ln mode
+                if (S <= 0 && C.salinityMode === 'ln') {
+                     console.warn("Salinity must be > 0 for Ln calculation.");
+                    return NaN;
+                }
+
+                let salinityTerm = 0;
+                if (C.salinityMode === 'ln') {
+                    salinityTerm = C.kS * Math.log(S);
+                } else { // linear
+                    salinityTerm = C.kS * S;
+                }
+
+                const tempTerm = C.kT * (T - Tref_calc);
+                // Pressure term (kP * (P - Pref)) omitted for simplicity
+
+                // HLDN = SCP - ACN + kS*Term(S) + kT*(T-Tref) + kA*f(A) + kP*(P-Pref)...
+                const hldn = scp - acn + salinityTerm + tempTerm + alcEffect;
+                return hldn;
+
+            } catch (e) {
+                console.error("Error calculating HLDN:", e);
+                return NaN;
+            }
+        }
+
+        // Function to solve the HLDN equation for one variable, given the others and a target HLDN
+        function solveForVariable(targetHLDN, variableToSolve) {
+             try {
+                 // Ensure all input elements exist
+                if (!calcScpInput || !calcAcnInput || !calcSalinityInput || !calcTempInput || !calcAlcoholInput) {
+                     return { error: "Input elements missing." };
+                }
+
+                const C = getCurrentCoeffs();
+                // Get current values, but treat the variableToSolve as unknown
+                let scp = parseFloat(calcScpInput.value);
+                let acn = parseFloat(calcAcnInput.value);
+                let S = parseFloat(calcSalinityInput.value);
+                let T = parseFloat(calcTempInput.value);
+                let alcEffect = parseFloat(calcAlcoholInput.value);
+
+                 // Validate inputs again before solving
+                 if (isNaN(scp) || isNaN(acn) || isNaN(S) || isNaN(T) || isNaN(alcEffect)) {
+                     return { error: "Invalid input values detected." };
+                 }
+
+                // Basic HLDN structure: HLDN = SCP - ACN + SalTerm + TempTerm + AlcTerm
+                let salTerm = 0;
+                if (C.salinityMode === 'ln') {
+                    if (S <= 0 && variableToSolve !== 'salinity') return { error: "Current Salinity must be > 0 for Ln(S)" };
+                    salTerm = (variableToSolve !== 'salinity') ? C.kS * Math.log(S) : 0; // Calculate if not solving for S
+                } else {
+                    salTerm = (variableToSolve !== 'salinity') ? C.kS * S : 0;
+                }
+                const tempTerm = (variableToSolve !== 'temp') ? C.kT * (T - Tref_calc) : 0;
+                const alcTerm = (variableToSolve !== 'alcohol') ? alcEffect : 0;
+
+                let result = NaN;
+                let requires = "";
+
+                // Rearrange HLDN equation to solve for the selected variable
+                switch(variableToSolve) {
+                    case 'scp':
+                        result = targetHLDN + acn - salTerm - tempTerm - alcTerm;
+                        requires = `Required ${variableToSolve.toUpperCase()}`;
+                        break;
+                    case 'acn':
+                        result = scp - targetHLDN + salTerm + tempTerm + alcTerm;
+                         requires = `Required ${variableToSolve.toUpperCase()}`;
+                        break;
+                    case 'salinity':
+                        const neededSalTerm = targetHLDN - scp + acn - tempTerm - alcTerm;
+                        if (C.salinityMode === 'ln') {
+                            if (C.kS === 0) return { error: "kS is zero, cannot solve for Salinity (Ln)" };
+                            result = Math.exp(neededSalTerm / C.kS);
+                            requires = `Required Salinity (wt%, Ln mode)`;
+                        } else {
+                            if (C.kS === 0) return { error: "kS is zero, cannot solve for Salinity (linear)" };
+                            result = neededSalTerm / C.kS;
+                            requires = `Required Salinity (wt%, linear mode)`;
+                        }
+                         if (result <= 0) return { error: "Calculated required Salinity is <= 0, not feasible." };
+                        break;
+                    case 'temp':
+                        const neededTempTerm = targetHLDN - scp + acn - salTerm - alcTerm;
+                        if (C.kT === 0) return { error: "kT is zero, cannot solve for Temperature" };
+                        result = (neededTempTerm / C.kT) + Tref_calc;
+                        requires = `Required Temperature (°C)`;
+                        break;
+                    case 'alcohol':
+                        result = targetHLDN - scp + acn - salTerm - tempTerm;
+                        requires = `Required Alcohol Effect (kA*f(A))`;
+                        break;
+                    default:
+                         return { error: "Unknown variable to solve for." };
+                }
+
+                // Check if the result is a valid number
+                if (isNaN(result)) {
+                     return { error: `Could not calculate required ${variableToSolve}. Check inputs and coefficients.` };
+                }
+
+                return { value: result, requires: requires };
+
+            } catch (e) {
+                console.error("Error solving for variable:", e);
+                return { error: "Calculation error during compensation." };
+            }
+        }
+
+        // --- Event Listeners ---
+        // Calculate initial HLDN when button is clicked
+        if (calculateBtn) {
+            calculateBtn.addEventListener('click', () => {
+                const hldn = calculateHLDN_fromInputs();
+                 // Ensure result span exists
+                if (!hldnResultSpan || !compensationResultDiv) return;
+
+                if (isNaN(hldn)) {
+                     hldnResultSpan.textContent = "Error";
+                     compensationResultDiv.textContent = "Invalid input. Cannot calculate HLDN. Ensure Salinity > 0 if using Ln(S).";
+                } else {
+                    hldnResultSpan.textContent = hldn.toFixed(3);
+                    compensationResultDiv.textContent = `Initial HLDN calculated: ${hldn.toFixed(3)}. Now change an input value and select another parameter to compensate.`;
+                }
+            });
+        }
+
+        // Calculate compensation when button is clicked
+         if (compensateBtn) {
+            compensateBtn.addEventListener('click', () => {
+                // Ensure select and result div exist
+                if (!compensateVarSelect || !compensationResultDiv) return;
+
+                const variableToAdjust = compensateVarSelect.value;
+                const compensation = solveForVariable(0, variableToAdjust); // Target HLDN = 0
+
+                if (compensation.error) {
+                     compensationResultDiv.textContent = `Error: ${compensation.error}`;
+                } else {
+                     // Use innerHTML to allow formatting tags like <strong>
+                     compensationResultDiv.innerHTML = `To reach HLDN ≈ 0, adjust ${variableToAdjust}:<br><strong class="text-xl text-sky-700">${compensation.requires}: ${compensation.value.toFixed(3)}</strong>`;
+                }
+            });
+        }
+
+        // Update calculator behavior when surfactant type changes
+        if (calcTypeSelect) {
+            calcTypeSelect.addEventListener('change', () => {
+                // Optionally, reset values or trigger recalculation if desired
+                if (calculateBtn) calculateBtn.click();
+            });
+        }
+
+
+        // Initial calculation for calculator display on load
+        window.addEventListener('load', () => {
+            // Ensure button exists before clicking
+            if (calculateBtn) calculateBtn.click();
+        });
+
+
+    </script>
+
+</body>
+</html>
+
