@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLD/HLDN Course - Module 1: Introduction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth; /* Smooth scrolling for internal links */
+        }
+
+        /* Animation for sections appearing on scroll */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-section {
+            opacity: 0; /* Start hidden */
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Style for interactive elements */
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151; /* gray-700 */
+        }
+
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        input[type="number"] {
+             width: 80px; /* Fixed width for number inputs */
+             padding: 0.5rem;
+             border: 1px solid #D1D5DB; /* gray-300 */
+             border-radius: 0.375rem; /* rounded-md */
+             text-align: center;
+        }
+
+        /* Test tube visualization styles */
+        .test-tube-container {
+            width: 100px;
+            height: 200px;
+            border: 3px solid #6B7280; /* gray-500 */
+            border-top: none;
+            border-radius: 0 0 50px 50px; /* Rounded bottom */
+            margin: 20px auto;
+            position: relative;
+            background-color: #F9FAFB; /* gray-50 */
+            overflow: hidden; /* Keep phases inside */
+        }
+
+        .phase {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            transition: height 0.3s ease, bottom 0.3s ease, background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .oil-phase { background-color: #FBBF24; /* amber-400 */ }
+        .water-phase { background-color: #60A5FA; /* blue-400 */ }
+        .middle-phase { background-color: #A78BFA; /* violet-400 */ }
+
+        /* Ensure smooth transitions for dynamic content */
+        .dynamic-content {
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Improve contrast and readability */
+        h1, h2, h3 { color: #111827; /* gray-900 */ }
+        p, li { color: #374151; /* gray-700 */ line-height: 1.6; }
+        strong { color: #1F2937; /* gray-800 */ }
+
+        /* Style for blockquotes or key definitions */
+        blockquote {
+            border-left: 4px solid #8B5CF6; /* violet-500 */
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #4B5563; /* gray-600 */
+        }
+         /* Add some subtle background variations */
+        .section-bg-light { background-color: #F9FAFB; /* gray-50 */ }
+        .section-bg-white { background-color: #FFFFFF; }
+
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 antialiased">
+
+    <header class="bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <h1 class="text-3xl font-bold">A Course on Hydrophilic-Lipophilic Deviation (HLD/HLDN)</h1>
+            <p class="text-xl font-semibold mt-1">Module 1: Introduction to Surfactant Formulation & the HLD Concept</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+
+        <section id="section-1-1" class="mb-12 p-6 rounded-lg shadow-lg section-bg-white dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700 border-b-2 border-indigo-200 pb-2">1.1 The Central Role of Formulation in Surfactant Science</h2>
+            <p class="mb-4">The field of surfactant science is intrinsically linked to the concept of "formulation." As defined by Jean Louis Salager, formulation encompasses the accumulated knowledge and practical experience involved in the meticulous selection, mixing, association, and conditioning of various ingredients to create a well-defined product capable of meeting a pre-established set of requirements.<sup class="text-indigo-500">1</sup> This definition underscores that formulation transcends simple mixing; it is a scientific discipline rooted in understanding the complex physicochemical interactions between components within a system.<sup class="text-indigo-500">1</sup></p>
+            <blockquote class="my-4">
+                "Formulation... [is] the set of knowledge and know-how concerning the selection, mixing, association and conditioning of various matters, in order to attain a well defined product able to meet a pre-established set of requirements." - J. L. Salager <sup class="text-indigo-500">1</sup>
+            </blockquote>
+            <p class="mb-4">The historical trajectory of formulation, as traced by Salager, evolves from empirical art, evident in ancient practices like soap making and metallurgy, through alchemical explorations, to its establishment as a science grounded in chemistry and physics.<sup class="text-indigo-500">1</sup> Modern formulation, particularly in the realm of surfactants, relies heavily on understanding concepts like the Hydrophilic-Lipophilic Deviation (HLD), which provides a quantitative framework for prediction and control. The significance of formulation is vast, underpinning countless products and processes across diverse industries, including petroleum production (especially Enhanced Oil Recovery - EOR), food science, pharmaceuticals, cosmetics, detergency, paints, fuels, wastewater treatment, and many others encountered in daily life.<sup class="text-indigo-500">1</sup></p>
+            <p>Within this context, Salager consistently positioned the HLD concept not merely as another theory but as the foundational principle of modern, rational surfactant formulation science. His work aimed to elevate formulation from a practice reliant on extensive trial-and-error and empirical rules to a predictive engineering discipline. This elevation is achieved because HLD provides a quantitative, multivariable framework that integrates the effects of surfactant structure, oil type, aqueous phase salinity, temperature, pressure, and cosurfactants into a single, coherent model.<sup class="text-indigo-500">1, 2</sup> By explicitly contrasting HLD and its normalized successor, HLDN, with older, less comprehensive approaches like the Hydrophilic-Lipophilic Balance (HLB) number<sup class="text-indigo-500">2</sup>, Salager highlighted HLD's superior ability to predict phase behavior, interfacial tension, and emulsion properties across a wide range of conditions. This predictive power transforms formulation into a more systematic and efficient process, enabling the targeted design of surfactant systems for specific, demanding applications.<sup class="text-indigo-500">1</sup></p>
+        </section>
+
+        <section id="section-1-2" class="mb-12 p-6 rounded-lg shadow-lg section-bg-light dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700 border-b-2 border-indigo-200 pb-2">1.2 Beyond HLB: Winsor's R Ratio and the Need for a Quantitative Framework</h2>
+            <p class="mb-4">Before the advent of the HLD concept, attempts to rationalize surfactant behavior often relied on the Hydrophilic-Lipophilic Balance (HLB) system, introduced by Griffin.<sup class="text-indigo-500">2</sup> However, as Salager frequently pointed out, the HLB system suffers from significant limitations. It primarily considers the surfactant's structure (originally based on the weight percentage of the hydrophilic ethylene oxide portion) and largely ignores the crucial influence of other formulation variables such as the nature of the oil phase, the salinity of the aqueous phase, and temperature.<sup class="text-indigo-500">2</sup> Consequently, HLB values provide only a rough guideline and often fail to accurately predict phase behavior or optimal performance, especially in complex systems or under varying conditions.<sup class="text-indigo-500">2</sup></p>
+            <p class="mb-4">A significant conceptual advance was made by Winsor, who introduced the idea of interaction energies between the surfactant adsorbed at the oil-water interface and the bulk oil (O) and water (W) phases.<sup class="text-indigo-500">4</sup> Winsor defined the <strong>R ratio</strong> as the ratio of the surfactant's interaction energy with the oil phase (A<sub>CO</sub>) to its interaction energy with the water phase (A<sub>CW</sub>), R = A<sub>CO</sub> / A<sub>CW</sub>.<sup class="text-indigo-500">4</sup> These interaction energies were further broken down into contributing terms representing favorable interactions (like the lipophilic tail in oil, A<sub>LCO</sub>, or the hydrophilic head in water, A<sub>HCW</sub>) and unfavorable interactions (like the hydrophilic head in oil, A<sub>HCO</sub>, or lipophilic tail in water, A<sub>LCW</sub>), as well as cohesive interactions within the phases and lateral interactions within the surfactant layer.<sup class="text-indigo-500">4</sup></p>
+            <blockquote class="my-4">
+                Winsor's R Ratio: R = A<sub>CO</sub> / A<sub>CW</sub> <br>
+                Balanced State: R ≈ 1
+            </blockquote>
+            <p class="mb-4">Winsor's critical contribution, highly valued by Salager, was the link established between the balance of these interactions (specifically, R ≈ 1) and unique physicochemical phenomena: the formation of a three-phase system (Winsor Type III) containing a surfactant-rich middle phase, and the occurrence of very low interfacial tension (IFT) between the oil and water phases.<sup class="text-indigo-500">1</sup> This established the fundamental principle that a specific balance of affinities leads to desirable properties for applications like EOR.</p>
+            <p>However, Winsor's R ratio remained a qualitative concept. Calculating the individual interaction energies (A<sub>CO</sub>, A<sub>CW</sub>) from first principles was impractical for complex systems, preventing the R ratio from being used as a quantitative predictive tool.<sup class="text-indigo-500">4</sup> This gap – the need for a practical, quantitative, multivariable framework that could predict the conditions for achieving the balanced state (R=1 or equivalent) and the resulting phase behavior across different formulations – was precisely what Salager's HLD concept was developed to address. Winsor provided the crucial conceptual understanding of why balanced interactions were important, but HLD provided the practical means to calculate how to achieve that balance by manipulating experimentally accessible variables.<sup class="text-indigo-500">1</sup></p>
+        </section>
+
+        <section id="section-1-3" class="mb-12 p-6 rounded-lg shadow-lg section-bg-white dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700 border-b-2 border-indigo-200 pb-2">1.3 Salager's HLD: Quantifying Surfactant Affinity</h2>
+            <p class="mb-4">Building upon Winsor's foundation, Jean Louis Salager and his collaborators at the FIRP laboratory developed the <strong>Hydrophilic-Lipophilic Deviation (HLD)</strong> concept.<sup class="text-indigo-500">1</sup> HLD provides a numerical measure of how far a given surfactant-oil-water (SOW) system deviates from the ideal state of "optimum formulation," where the surfactant's interactions with the oil and water phases are perfectly balanced.<sup class="text-indigo-500">6</sup></p>
+            <p class="mb-4">Conceptually, HLD is related to the Surfactant Affinity Difference (SAD), which represents the difference in the chemical potential or free energy of the surfactant between the oil and water environments. The relationship is often expressed as:</p>
+            <blockquote class="my-4 text-center text-lg font-semibold bg-indigo-50 p-3 rounded">
+                HLD = SAD / RT
+            </blockquote>
+             <p class="mb-4">where R is the ideal gas constant and T is the absolute temperature, rendering HLD a dimensionless quantity.<sup class="text-indigo-500">4</sup></p>
+            <p class="mb-4">A key feature of the HLD framework is its integration of multiple formulation variables into a single equation. Unlike HLB, which focuses solely on the surfactant, HLD explicitly accounts for the contributions of the surfactant's head and tail structure, the nature of the oil phase (characterized by ACN or EACN), the salinity of the aqueous phase (S), temperature (T), pressure (P), and the presence of cosurfactants or alcohols (f(A)).<sup class="text-indigo-500">1, 2</sup> This multivariable approach allows for a much more comprehensive and accurate description of real-world SOW systems.</p>
+            <p>The conceptual shift from Winsor's ratio (R) to Salager's deviation (HLD) or difference (SAD) is significant. While Winsor focused on the condition R=1<sup class="text-indigo-500">4</sup>, the HLD framework quantifies the degree of imbalance. By assigning numerical HLD values to non-optimal states (HLD < 0 or HLD > 0), the framework allows for the prediction of specific phase behaviors (Winsor Types I and II) associated with these imbalances.<sup class="text-indigo-500">4</sup> This predictive capability across the entire formulation spectrum, not just at the optimum point, makes HLD a far more practical tool for designing and controlling SOW systems for various applications that may require specific emulsion types or stability characteristics, rather than just the properties found at the exact optimum.<sup class="text-indigo-500">1, 2</sup></p>
+        </section>
+
+        <section id="section-1-4" class="mb-12 p-6 rounded-lg shadow-lg section-bg-light dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700 border-b-2 border-indigo-200 pb-2">1.4 Optimum Formulation (HLD=0): The Core Concept</h2>
+            <p class="mb-4">The cornerstone of the HLD framework is the concept of <strong>"optimum formulation."</strong> This is rigorously defined as the specific set of conditions (surfactant type, oil type, salinity, temperature, etc.) under which the Hydrophilic-Lipophilic Deviation is exactly zero (HLD = 0), or equivalently, the Surfactant Affinity Difference is zero (SAD = 0).<sup class="text-indigo-500">1</sup> This condition signifies a perfect balance: the surfactant molecules adsorbed at the oil-water interface exhibit precisely equal affinity or interaction strength for both the oil and water phases in their immediate vicinity.<sup class="text-indigo-500">1</sup></p>
+            <blockquote class="my-4 text-center text-xl font-bold text-green-700 bg-green-50 p-4 rounded-lg border border-green-300">
+                Optimum Formulation: HLD = 0 (Balanced Affinity)
+            </blockquote>
+            <p class="mb-4">This state of balanced interactions (HLD=0) is associated with a unique and characteristic set of observable phenomena, extensively documented by Salager and colleagues<sup class="text-indigo-500">1</sup>:</p>
+            <ul class="list-disc list-inside mb-4 space-y-2 pl-4">
+                <li><strong>Minimum Interfacial Tension (IFT):</strong> The tension between the bulk oil and water phases reaches a distinct minimum, often achieving ultralow values (e.g., < 0.001 mN/m).</li>
+                <li><strong>Winsor III Phase Behavior:</strong> The system typically separates into three coexisting phases: an excess oil phase, an excess water phase, and a surfactant-rich middle phase (often a bicontinuous microemulsion) that contains significant amounts of both solubilized oil and water.</li>
+                <li><strong>Maximum Solubilization:</strong> The middle phase microemulsion exhibits its maximum capacity to solubilize both oil and water at the optimum formulation.</li>
+                <li><strong>Minimum Emulsion Stability:</strong> Macroemulsions (O/W or W/O) prepared at or very near the optimum formulation are characteristically unstable and tend to break or phase-separate rapidly.</li>
+                <li><strong>Phase Inversion Point:</strong> For emulsified systems, HLD=0 often coincides with the phase inversion point, where the emulsion type transitions between oil-in-water (O/W) and water-in-oil (W/O).</li>
+            </ul>
+            <p class="mb-4">The term "optimum" arises because this specific set of properties is highly desirable for certain applications. For Enhanced Oil Recovery (EOR), the ultralow IFT achieved at HLD=0 is crucial for mobilizing trapped oil globules by overcoming capillary forces.<sup class="text-indigo-500">1</sup> Conversely, for processes like crude oil demulsification or dehydration, the minimum emulsion stability at HLD=0 is exploited to efficiently break unwanted stable emulsions.<sup class="text-indigo-500">1</sup></p>
+            <p>Therefore, HLD=0 serves as the central organizing principle within Salager's framework. It is not merely one point among many but the fundamental reference state around which the entire phase behavior and property map of a SOW system is structured. Understanding the combination of variables that leads to HLD=0 provides the key to predicting and controlling the system's behavior across the full spectrum of possible formulations. The HLD equation itself is fundamentally designed to identify these HLD=0 conditions<sup class="text-indigo-500">11</sup>, and transitions between different phase behaviors (e.g., Winsor I to III to II) are understood as occurring precisely when the system's HLD value passes through zero.<sup class="text-indigo-500">4</sup> Properties like IFT and stability display their extreme values at this critical balance point.<sup class="text-indigo-500">10</sup></p>
+        </section>
+
+        <section id="section-1-5" class="mb-12 p-6 rounded-lg shadow-lg section-bg-white dynamic-content">
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700 border-b-2 border-indigo-200 pb-2">1.5 Relating HLD to Winsor Phase Behavior (Types I, II, III, IV)</h2>
+            <p class="mb-4">A crucial aspect of the HLD framework is its ability to directly predict the equilibrium phase behavior of a surfactant-oil-water system, typically classified according to the Winsor nomenclature (Types I, II, III, and IV). Salager's work consistently demonstrates a clear correlation between the calculated HLD value (or SAD) and the observed Winsor type<sup class="text-indigo-500">1</sup>:</p>
+            <ul class="list-none mb-4 space-y-3">
+                <li class="p-3 bg-blue-50 rounded border border-blue-200">
+                    <strong class="text-blue-700">HLD < 0 (Negative Deviation):</strong> Surfactant interactions with water dominate (more hydrophilic). Leads to <strong class="text-blue-700">Winsor Type I (WI)</strong> behavior: O/W microemulsion + excess oil (2 phases, denoted <span class="font-mono font-bold">2</span>).<sup class="text-indigo-500">4</sup>
+                </li>
+                <li class="p-3 bg-amber-50 rounded border border-amber-200">
+                     <strong class="text-amber-700">HLD > 0 (Positive Deviation):</strong> Surfactant interactions with oil dominate (more lipophilic). Leads to <strong class="text-amber-700">Winsor Type II (WII)</strong> behavior: W/O microemulsion + excess water (2 phases, denoted <span class="font-mono font-bold"><u>2</u></span>).<sup class="text-indigo-500">4</sup>
+                </li>
+                 <li class="p-3 bg-violet-50 rounded border border-violet-200">
+                    <strong class="text-violet-700">HLD ≈ 0 (Near Optimum):</strong> Balanced interactions. Leads to <strong class="text-violet-700">Winsor Type III (WIII)</strong> behavior: Middle phase microemulsion + excess oil + excess water (3 phases, denoted <span class="font-mono font-bold">3</span>).<sup class="text-indigo-500">4</sup>
+                </li>
+                 <li class="p-3 bg-green-50 rounded border border-green-200">
+                     <strong class="text-green-700">HLD ≈ 0 (Higher Surfactant Concentration):</strong> May form <strong class="text-green-700">Winsor Type IV (WIV)</strong>: Single-phase microemulsion (1 phase, denoted <span class="font-mono font-bold">1ϕ</span>).<sup class="text-indigo-500">16</sup>
+                </li>
+            </ul>
+            <p class="mb-4">These transitions (WI ↔ WIII ↔ WII or WI ↔ WIV ↔ WII) can be systematically observed by performing a formulation scan, where a single variable (like salinity, temperature, or ACN) is changed progressively, effectively sweeping the HLD value from negative to positive or vice versa. Diagrams illustrating these transitions, often depicted as test tubes showing the phase volumes or as regions on phase diagrams, are central to Salager's pedagogical approach<sup class="text-indigo-500">1 Fig 5A, 30 Fig 2, 10 Fig 2, 33 Fig 8, 16 Fig 1</sup>. It is worth noting Salager's caution regarding the term "microemulsion," which has sometimes been confusingly applied to different phases within these systems<sup class="text-indigo-500">23</sup>.</p>
+            <p class="mb-4">The power of the HLD framework lies in its ability to provide a unified explanation for phase transitions induced by any formulation variable. Whether one changes salinity, temperature, oil ACN, surfactant tail length, or head group hydrophilicity, the effect is mediated through a change in the overall HLD value of the system. This predictably moves the system along the Winsor sequence (I → III → II or the reverse). The HLD equation<sup class="text-indigo-500">4</sup> incorporates terms for all these variables, and experimental scans confirm that manipulating any one of them can drive the transitions.<sup class="text-indigo-500">1</sup> This demonstrates that HLD acts as the underlying parameter governing the phase behavior, offering a single, powerful explanatory and predictive tool for diverse SOW systems.</p>
+
+            <div id="interactive-hld" class="mt-8 p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-inner">
+                <h3 class="text-xl font-semibold mb-4 text-center text-indigo-600">Interactive HLD Explorer</h3>
+                <p class="text-sm text-center text-gray-600 mb-6">Adjust the parameters below to see how they influence the HLD value and the resulting Winsor phase behavior. (Note: Uses a simplified illustrative HLD equation for demonstration).</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="scp">Surfactant Parameter (SCP): <span id="scp-value" class="font-mono text-indigo-700">10.0</span></label>
+                            <input type="range" id="scp" name="scp" min="0" max="20" value="10" step="0.1" class="h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                        </div>
+                        <div>
+                            <label for="acn">Oil Alkane Carbon Number (ACN): <span id="acn-value" class="font-mono text-indigo-700">10</span></label>
+                            <input type="range" id="acn" name="acn" min="4" max="18" value="10" step="1" class="h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                        </div>
+                         <div>
+                            <label for="salinity">Salinity (wt% NaCl): <span id="salinity-value" class="font-mono text-indigo-700">1.0</span></label>
+                            <input type="range" id="salinity" name="salinity" min="0.1" max="10" value="1.0" step="0.1" class="h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                        </div>
+                        <div>
+                            <label for="temperature">Temperature (°C): <span id="temperature-value" class="font-mono text-indigo-700">25</span></label>
+                            <input type="range" id="temperature" name="temperature" min="10" max="80" value="25" step="1" class="h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <span class="text-lg font-semibold">Calculated HLD:</span>
+                            <span id="hld-value" class="text-2xl font-bold font-mono ml-2 text-violet-700">0.00</span>
+                        </div>
+                        <div id="test-tube" class="test-tube-container shadow-md">
+                            </div>
+                        <div id="winsor-type" class="mt-2 text-xl font-bold">
+                            Winsor Type III
+                        </div>
+                         <p id="winsor-description" class="text-sm text-gray-600 mt-1">Balanced system with middle phase</p>
+                    </div>
+                </div>
+            </div>
+            </section>
+
+        <footer class="mt-16 pt-8 border-t border-gray-300 text-sm text-gray-600">
+            <h3 class="text-lg font-semibold mb-3 text-gray-700">References</h3>
+            <ol class="list-decimal list-inside space-y-1">
+                 <li>Salager, J. L., et al. (Multiple publications, see provided list)</li>
+                 <li>Griffin, W. C. (HLB concept)</li>
+                 <li>Winsor, P. A. (R ratio, phase behavior)</li>
+                 <li>FIRP Laboratory publications (Detailed studies)</li>
+                 <li>Etc. (Specific numbered references from the provided text can be added here)</li>
+            </ol>
+             <p class="mt-6 text-center text-xs text-gray-500">HLD/HLDN Course - Module 1 | Content based on the work of J.L. Salager and collaborators.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Intersection Observer for Fade-In Animation ---
+        const sections = document.querySelectorAll('.dynamic-content');
+
+        const observerOptions = {
+            root: null, // relative to the viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the section is visible
+        };
+
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-section');
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- Interactive HLD Calculator ---
+        const scpSlider = document.getElementById('scp');
+        const acnSlider = document.getElementById('acn');
+        const salinitySlider = document.getElementById('salinity');
+        const temperatureSlider = document.getElementById('temperature');
+
+        const scpValueSpan = document.getElementById('scp-value');
+        const acnValueSpan = document.getElementById('acn-value');
+        const salinityValueSpan = document.getElementById('salinity-value');
+        const temperatureValueSpan = document.getElementById('temperature-value');
+
+        const hldValueSpan = document.getElementById('hld-value');
+        const testTubeDiv = document.getElementById('test-tube');
+        const winsorTypeSpan = document.getElementById('winsor-type');
+        const winsorDescriptionSpan = document.getElementById('winsor-description');
+
+        // Simplified HLD Equation Coefficients (Illustrative)
+        const kS = 5.0; // Salinity coefficient (for log10 scale)
+        const kT = 0.1; // Temperature coefficient
+        const Tref = 25.0; // Reference temperature
+
+        function calculateHLD() {
+            const scp = parseFloat(scpSlider.value);
+            const acn = parseFloat(acnSlider.value);
+            const salinity = parseFloat(salinitySlider.value);
+            const temperature = parseFloat(temperatureSlider.value);
+
+            // Update display values
+            scpValueSpan.textContent = scp.toFixed(1);
+            acnValueSpan.textContent = acn.toFixed(0);
+            salinityValueSpan.textContent = salinity.toFixed(1);
+            temperatureValueSpan.textContent = temperature.toFixed(0);
+
+            // Calculate HLD (using simplified model)
+            // HLD = SCP - ACN + kS * log10(S) - kT * (T - Tref)
+            // Added check for salinity > 0 for log10
+            const salinityTerm = (salinity > 0) ? kS * Math.log10(salinity) : -Infinity; // Handle log(0)
+            const temperatureTerm = kT * (temperature - Tref);
+            const hld = scp - acn + salinityTerm - temperatureTerm;
+
+            hldValueSpan.textContent = hld.toFixed(2);
+
+            updateVisualization(hld);
+        }
+
+        function updateVisualization(hld) {
+            // Clear previous phases
+            testTubeDiv.innerHTML = '';
+
+            let type = '';
+            let description = '';
+            let phases = []; // Array to hold phase objects {name, color, heightPercent}
+
+            // Define thresholds for Winsor types (adjust as needed for visual clarity)
+            const lowerThreshold = -0.75;
+            const upperThreshold = 0.75;
+
+            if (hld < lowerThreshold) {
+                // Winsor Type I (2 phases: O/W microemulsion + excess oil)
+                type = 'Winsor Type I';
+                description = 'Hydrophilic system (O/W)';
+                phases = [
+                    { name: 'Oil', color: 'bg-amber-400', heightPercent: 30 }, // Excess oil on top
+                    { name: 'O/W μE', color: 'bg-blue-300', heightPercent: 70 }  // Surfactant-rich water phase
+                ];
+            } else if (hld > upperThreshold) {
+                // Winsor Type II (2 phases: W/O microemulsion + excess water)
+                type = 'Winsor Type II';
+                description = 'Lipophilic system (W/O)';
+                 phases = [
+                    { name: 'W/O μE', color: 'bg-amber-300', heightPercent: 70 }, // Surfactant-rich oil phase
+                    { name: 'Water', color: 'bg-blue-400', heightPercent: 30 } // Excess water at bottom
+                ];
+            } else {
+                // Winsor Type III (3 phases: excess oil + middle phase + excess water)
+                type = 'Winsor Type III';
+                description = 'Balanced system (Middle Phase)';
+                phases = [
+                    { name: 'Oil', color: 'bg-amber-400', heightPercent: 30 },  // Excess oil
+                    { name: 'Mid Phase', color: 'bg-violet-400', heightPercent: 40 }, // Middle phase
+                    { name: 'Water', color: 'bg-blue-400', heightPercent: 30 } // Excess water
+                ];
+            }
+
+            winsorTypeSpan.textContent = type;
+            winsorDescriptionSpan.textContent = description;
+
+             // Create and append phase divs
+            let currentBottom = 0;
+            phases.reverse().forEach(phase => { // Reverse to stack from bottom
+                const phaseDiv = document.createElement('div');
+                phaseDiv.classList.add('phase', phase.color);
+                phaseDiv.style.height = `${phase.heightPercent}%`;
+                phaseDiv.style.bottom = `${currentBottom}%`;
+                phaseDiv.textContent = phase.name;
+                testTubeDiv.appendChild(phaseDiv);
+                currentBottom += phase.heightPercent;
+            });
+        }
+
+        // Add event listeners
+        scpSlider.addEventListener('input', calculateHLD);
+        acnSlider.addEventListener('input', calculateHLD);
+        salinitySlider.addEventListener('input', calculateHLD);
+        temperatureSlider.addEventListener('input', calculateHLD);
+
+        // Initial calculation on load
+        calculateHLD();
+
+    </script>
+
+</body>
+</html>
